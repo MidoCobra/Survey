@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load customtags %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div>
+    <h3>{{ survey.title|title }} Survey</h3>
+    Hi {{ request.user.name|title }}, <br> Lets start our {{ survey.title|title }} survey: <br>
+
+    <div>
+        <form action="{% url 'answer' %}" method="get">
+          
+            <input type="hidden" id="" name="questionId" value="{{ question.id }}">
+            {% if question %}
+            <div style="padding: 30px;"> 
+                <h4>{{ question|capfirst }}</h4>
+                    {% if question.choices %}
+                 
+                        {% for item in question.choices|split  %}
+                          <div class="form-check">
+                            <input type="radio" class="form-check-input" id="" name="answer" value="{{ item }}">{{ item }}
+                            <label class="form-check-label" for="answer"></label>
+                          </div>
+                          
+                        {% endfor %}
+                   
+                    {% else %}
+                    <label for="comment">Answer:</label>
+                    <textarea class="form-control" rows="5" id="" name="answer"></textarea>
+                  
+                        
+                    {% endif %}
+                </div> 
+        
+            {% endif %}            
+
+
+            <div style="text-align:right">
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<form method="POST" enctype="multipart/form-data">
+    {{ formset.management_data }}
+    {% csrf_token %}
+
+    {% if questions %}
+    {% for q in questions %}
+    <div style="padding: 30px;"> 
+               <h4>*{{ q.question|capfirst }}</h4>
+            {% if q.choices %}
+         
+                {% for item in q.choices|split  %}
+
+                  <div class="form-check">
+                    <input type="radio" class="form-check-input" id="{{ q.id }}" name="{{ q.id }}" value="{{ item }}">{{ item }}
+                    <label class="form-check-label" for="{{ q.id }}"></label>
+                  </div>
+                  
+                {% endfor %}
+           
+            {% else %}
+           {{ formset.as_p }}
+                {% render_field formset.answer rows="10" cols="50" required="true" %}
+                
+            {% endif %}
+        </div> 
+    {% endfor %}
+    {% endif %}            
+
+
+    <button class="btn btn-primary" type="submit" style="align-content: 90px;">Submit</button>
+</form>

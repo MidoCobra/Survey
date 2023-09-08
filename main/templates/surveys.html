@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div>
+
+    {% if surveys %}
+  <h3 style="font-weight: 800;">  Hi {{ request.user.name|title }}, <br> Please select a survey:</h3>
+    <br>
+
+   
+    {% for s in surveys %}
+    <h5 style="font-weight:500 ;">{{ s.title|title }}</h5>
+                <ul>
+                    <li>
+                        {{ s.description|capfirst }}
+                    </li>
+                    <li>
+                        {{ s.start_at }}
+                    </li>
+                    <li>
+                        {{ s.end_at }}
+                    </li>
+                    <a href="{{ s.get_absolute_url }}">
+                        Start Survey
+                    </a>
+                </ul>
+    {% endfor %}
+
+    {% else %}
+    <h3 style="font-weight: 800; color: red;"> Sorry! You have participated in all our surveys</h3>
+    {% endif %}
+
+</div>
+
+
+
+{% endblock %}
