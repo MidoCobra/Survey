@@ -1,5 +1,8 @@
-manage.py
-Survey/wsgi.py
-Survey/urls.py
-Survey/settings.py
-Survey/asgi.py
+# manage.py
+# Survey/wsgi.py
+# Survey/urls.py
+# Survey/settings.py
+# Survey/asgi.py
+
+db.sqlite3
+exclude
